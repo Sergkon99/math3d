@@ -1,6 +1,15 @@
 from typing import List, Tuple
 from functools import partial
 from operator import add
+from math import sqrt, sin, cos, pi
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+
+def frange(x, y, jump):
+    while x < y:
+        yield x
+        x += jump
 
 
 class Figure3D:
@@ -111,3 +120,64 @@ class Cube(Figure3D):
         self.add_face((1, 5, 6, 2))
         self.add_face((2, 6, 7, 3))
         self.add_face((3, 7, 4, 0))
+
+
+class Cylinder(Figure3D):
+    def __init__(self, a, b, r):
+        super().__init__()
+
+        # Вектор нормали
+        n = tuple(c2 - c1 for c1, c2 in zip(a, b))
+        
+        l1 = self._generate_circle(a, n, r)
+        l2 = self._generate_circle(b, n, r)
+
+        self.add_vertexs(l1)
+        self.add_vertexs(l2)
+
+        cnt = len(l1)
+        for i in range(cnt - 1):  # без последней грани
+            face = (i,
+                    (i + cnt),
+                    (i + cnt + 1),
+                    i + 1)
+            self.add_face(face)
+        # Добавим последнюю грань
+        self.add_face((0, cnt, 2 * cnt - 1, cnt - 1))
+        self.add_face(tuple(range(cnt)))
+        self.add_face(tuple(map(lambda x: x + cnt, range(cnt))))
+
+        # fig = plt.figure()
+        # ax = fig.add_subplot(111, projection="3d")
+        # ax.plot([a[0], b[0]], [a[1], b[1]], [a[2], b[2]])
+
+        # for p in l1 + l2:
+        #     x, y, z = p
+        #     ax.scatter(x, y, z, s=1, c="black")
+        # plt.show()
+
+    def _generate_circle(self, p, n, r):
+        # p - центр
+        # n - нормаль к плоскости в которой лежит окружность
+        # r - радиус
+        t_range = list(frange(0, 2 * pi, 0.1))
+        # Коэфиценты ур-ия прямой
+        A, B, C = n
+        x = [
+            p[0] + (r / sqrt(A**2 + C**2)) * (C * cos(t) - (A * B * sin(t) / sqrt(A**2 + B**2 + C**2)))
+            for t in t_range
+        ]
+        y = [
+            p[1] + (r * sqrt(A**2 + C**2) / sqrt(A**2 + B**2 + C**2)) * sin(t)
+            for t in t_range
+        ]
+        z = [
+            p[2] - (r / sqrt(A**2 + C**2)) * (A * cos(t) + (B * C * sin(t) / sqrt(A**2 + B**2 + C**2)))
+            for t in t_range
+        ]
+        return [(x_, y_, z_) for x_, y_, z_ in zip(x, y, z)]
+
+
+if __name__ == "__main__":
+    c = Cylinder((0,0,0), (0,0,2), 1)
+
