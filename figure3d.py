@@ -194,8 +194,11 @@ class Cylinder(Figure3D):
         t_range = list(frange(0, 2 * pi, 0.1))
         # Коэфиценты ур-ия прямой
         A, B, C = n
-        if A**2 + C**2 == 0:
-            raise RuntimeError(f"Коэффиценты A и B не бугкт быть 0 одновременно")
+        if A**2 + C**2 < 0.001:
+            x = [p[0] + r * cos(t) for t in t_range]
+            y = [p[1] for t in t_range]
+            z = [p[2] + r * sin(t) for t in t_range]
+            return [(x_, y_, z_) for x_, y_, z_ in zip(x, y, z)]
         x = [
             p[0] + (r / sqrt(A**2 + C**2)) * (C * cos(t) - (A * B * sin(t) / sqrt(A**2 + B**2 + C**2)))
             for t in t_range
@@ -212,5 +215,10 @@ class Cylinder(Figure3D):
 
 
 if __name__ == "__main__":
-    c = Ball((0, 0, 0), 1)
-    c.save_ply("Ball")
+    A = (0, 0, 0)
+    B = (5, 0, 0)
+    C = (5, 5, 0)
+    D = (0, 5, 0)
+    E = (0, 0, 5)
+    c = Cylinder(B, C, .1)
+    c.save_ply("cilllll")
