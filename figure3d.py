@@ -147,6 +147,17 @@ class Ball(Figure3D):
             self.add_face(face)
 
 
+class Edge(Figure3D):
+    def __init__(self, *points):
+        super().__init__()
+
+        for point in points:
+            if type(point) != tuple:
+                raise Exception()
+        self.add_vertexs(points)
+        self.add_face(list(range(len(points))))
+
+
 class Cylinder(Figure3D):
     def __init__(self, a, b, r):
         super().__init__()
