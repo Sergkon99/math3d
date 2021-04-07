@@ -132,10 +132,7 @@ class Ball(Figure3D):
             x = [a[0] + r * sin(t) * cos(fi) for fi in fi_range]
             y = [a[1] + r * sin(t) * sin(fi) for fi in fi_range]
             z = [a[2] + r * cos(t) for fi in fi_range]
-            if cnt is None:
-                cnt = len(x)
-            else:
-                assert cnt == len(x) == len(y) == len(z)
+            cnt = len(x)
             self.add_vertexs([(x_, y_, z_) for x_, y_, z_ in zip(x, y, z)])
 
         # Добавим грани
@@ -153,7 +150,7 @@ class Edge(Figure3D):
 
         for point in points:
             if type(point) != tuple:
-                raise Exception()
+                raise ValueError(f"Тип переданного элемента не соответсвует формату. {type(point)} != {tuple}")
         self.add_vertexs(points)
         self.add_face(list(range(len(points))))
 
@@ -171,6 +168,13 @@ class Cylinder(Figure3D):
         self.add_vertexs(l1)
         self.add_vertexs(l2)
 
+        # Схема грани
+        # i+cnt----i+cnt+1
+        #   |         |
+        #   |         |
+        #   |         |
+        #   |         |
+        #   i--------i+1
         cnt = len(l1)
         for i in range(cnt - 1):  # без последней грани
             face = (i,
@@ -190,6 +194,8 @@ class Cylinder(Figure3D):
         t_range = list(frange(0, 2 * pi, 0.1))
         # Коэфиценты ур-ия прямой
         A, B, C = n
+        if A**2 + C**2 == 0:
+            raise RuntimeError(f"Коэффиценты A и B не бугкт быть 0 одновременно")
         x = [
             p[0] + (r / sqrt(A**2 + C**2)) * (C * cos(t) - (A * B * sin(t) / sqrt(A**2 + B**2 + C**2)))
             for t in t_range
