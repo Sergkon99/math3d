@@ -111,29 +111,3 @@ class Cube(Figure3D):
         self.add_face((1, 5, 6, 2))
         self.add_face((2, 6, 7, 3))
         self.add_face((3, 7, 4, 0))
-
-
-def generate_ply():
-    t = Tetrahedron(
-        (1, 1, 0),
-        (2, 0, 0),
-        (1, 0, 0),
-        (1, 0, 1)
-    )
-    c = Cube(
-        (0, 0, 0),
-        (0, 0, 1),
-        (0, 1, 1),
-        (0, 1, 0),
-        (1, 0, 0),
-        (1, 0, 1),
-        (1, 1, 1),
-        (1, 1, 0)
-    )
-    f = c + t
-    t.save_ply("Tetrahedron")
-    c.save_ply("Cube")
-    f.save_ply("Figure")
-
-
-generate_ply()
