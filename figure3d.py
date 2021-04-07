@@ -13,13 +13,14 @@ def frange(x, y, jump):
 
 
 class Figure3D:
-    def __init__(self, vertexs: List[Tuple] = None, faces: List[Tuple] = None):
+    def __init__(self, vertexs: List[Tuple] = None, faces: List[Tuple] = None, hide=False):
         # Список вершин
         # Каждая вершина - кортеж из 3-х элементов (x, y, z)
         self._vertexs = vertexs or []
         # Список граней
         # Каждая грань содержит порядковый номер вершин на которох построена
         self._faces = faces or []
+        self.hide = hide
 
     def add_vertex(self, vertex: Tuple):
         self._vertexs.append(vertex)
@@ -47,6 +48,8 @@ class Figure3D:
         return len(self._vertexs), len(self._faces)
 
     def __add__(self, other):
+        if other.hide:
+            return self
         f = Figure3D(self.get_vertexs(), self.get_faces())
         sz = f.size
         added_vertexs = other.get_vertexs()
@@ -123,8 +126,8 @@ class Cube(Figure3D):
 
 
 class Ball(Figure3D):
-    def __init__(self, a, r):
-        super().__init__()
+    def __init__(self, a, r, hide=False):
+        super().__init__(hide=hide)
         tetha_range = list(frange(0, pi, .1))
         fi_range = list(frange(0, 2*pi, .1))
         cnt = None
@@ -145,8 +148,8 @@ class Ball(Figure3D):
 
 
 class Edge(Figure3D):
-    def __init__(self, *points):
-        super().__init__()
+    def __init__(self, *points, hide=False):
+        super().__init__(hide=hide)
 
         for point in points:
             if type(point) != tuple:
@@ -156,8 +159,8 @@ class Edge(Figure3D):
 
 
 class Cylinder(Figure3D):
-    def __init__(self, a, b, r):
-        super().__init__()
+    def __init__(self, a, b, r, hide=False):
+        super().__init__(hide=hide)
 
         # Вектор нормали
         n = tuple(c2 - c1 for c1, c2 in zip(a, b))
