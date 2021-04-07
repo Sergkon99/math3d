@@ -42,6 +42,11 @@ if __name__ == "__main__":
     b4 = Ball(C, .2)
     b5 = Ball(D, .2)
     e1 = Edge(A, E, D)
-    e2 = Edge(A, D, C, B)
-    c = c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + b1 + b2 + b5 + b3 + b4 + e1 + e2
+    e2 = Edge(A, B, E)
+    e3 = Edge(B, E, C)
+    e4 = Edge(C, E, D)
+    e5 = Edge(A, D, C, B)
+    c = c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 +\
+        b1 + b2 + b5 + b3 + b4 +\
+        e1 + e2 + e3 + e4 + e5
     c.save_ply("Figgg")
