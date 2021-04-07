@@ -23,8 +23,19 @@ if __name__ == "__main__":
     # # c.save_ply("Cube")
     # f.save_ply("Figure")
 
-    c1 = Cylinder((0, 0, 0), (3, 9, 2), 1)
-    c2 = Cylinder((3, 9, 2), (9, 9, 2), 1)
-    c3 = Cylinder((9, 9, 2), (10, 9, 0), 1)
-    c = c1 + c2 + c3
-    c.save_ply("Cylinder2")
+    c1 = Cylinder((0, 0, 0), (5, 0, 0), .1)
+    c2 = Cylinder((0, 0, 0), (1, 5, 0), .1)
+    c3 = Cylinder((1, 5, 0), (6, 5, 0), .1)
+    c4 = Cylinder((5, 0, 0), (6, 5, 0), .1)
+    c5 = Cylinder((5, 0, 0), (0, 0, 5), .1)
+    c6 = Cylinder((6, 5, 0), (0, 0, 5), .1)
+    c7 = Cylinder((1, 5, 0), (0, 0, 5), .1)
+    c8 = Cylinder((0, 0, 0), (0, 0, 5), .1)
+    b1 = Ball((0, 0, 5), .2)
+    b2 = Ball((0, 0, 0), .2)
+    b3 = Ball((5, 0, 0), .2)
+    b4 = Ball((6, 5, 0), .2)
+    b5 = Ball((1, 5, 0), .2)
+    c = c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + b1 + b2 + b5 + b3 + b4
+    # c = c2 +b2 +b5
+    c.save_ply("Figgg")

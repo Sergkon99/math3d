@@ -122,13 +122,38 @@ class Cube(Figure3D):
         self.add_face((3, 7, 4, 0))
 
 
+class Ball(Figure3D):
+    def __init__(self, a, r):
+        super().__init__()
+        tetha_range = list(frange(0, pi, .1))
+        fi_range = list(frange(0, 2*pi, .1))
+        cnt = None
+        for t in tetha_range:
+            x = [a[0] + r * sin(t) * cos(fi) for fi in fi_range]
+            y = [a[1] + r * sin(t) * sin(fi) for fi in fi_range]
+            z = [a[2] + r * cos(t) for fi in fi_range]
+            if cnt is None:
+                cnt = len(x)
+            else:
+                assert cnt == len(x) == len(y) == len(z)
+            self.add_vertexs([(x_, y_, z_) for x_, y_, z_ in zip(x, y, z)])
+
+        # Добавим грани
+        for i in range(self.size[0] - cnt - 1):
+            face = (i,
+                    (i + cnt),
+                    (i + cnt + 1),
+                    i + 1)
+            self.add_face(face)
+
+
 class Cylinder(Figure3D):
     def __init__(self, a, b, r):
         super().__init__()
 
         # Вектор нормали
         n = tuple(c2 - c1 for c1, c2 in zip(a, b))
-        
+
         l1 = self._generate_circle(a, n, r)
         l2 = self._generate_circle(b, n, r)
 
@@ -146,15 +171,6 @@ class Cylinder(Figure3D):
         self.add_face((0, cnt, 2 * cnt - 1, cnt - 1))
         self.add_face(tuple(range(cnt)))
         self.add_face(tuple(map(lambda x: x + cnt, range(cnt))))
-
-        # fig = plt.figure()
-        # ax = fig.add_subplot(111, projection="3d")
-        # ax.plot([a[0], b[0]], [a[1], b[1]], [a[2], b[2]])
-
-        # for p in l1 + l2:
-        #     x, y, z = p
-        #     ax.scatter(x, y, z, s=1, c="black")
-        # plt.show()
 
     def _generate_circle(self, p, n, r):
         # p - центр
@@ -179,5 +195,5 @@ class Cylinder(Figure3D):
 
 
 if __name__ == "__main__":
-    c = Cylinder((0,0,0), (0,0,2), 1)
-
+    c = Ball((0, 0, 0), 1)
+    c.save_ply("Ball")
