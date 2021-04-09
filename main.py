@@ -43,7 +43,7 @@ if __name__ == "__main__":
     b5 = Ball(D, .2)
     e1 = Edge(A, E, D)
     e2 = Edge(A, B, E)
-    e3 = Edge(B, E, C)
+    e3 = Edge(B, E, C, hide=True)
     e4 = Edge(C, E, D)
     e5 = Edge(A, D, C, B)
     c = c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 +\
