@@ -1,4 +1,5 @@
 from figure3d import *
+from base_figure3d import *
 
 
 if __name__ == "__main__":
