@@ -38,6 +38,8 @@ class Figure3D:
         Добавление вершины к фигуре
         :param vertex: вершина
         """
+        if self.hide:
+            return
         self._vertexs.append(vertex)
 
     def add_face(self, face: Face3D) -> None:
@@ -45,6 +47,8 @@ class Figure3D:
         Добавление грани к фигуре
         :param face: грань
         """
+        if self.hide:
+            return
         self._faces.append(face)
 
     def add_vertexs(self, vertexs: List[Point3D]) -> None:
@@ -91,8 +95,6 @@ class Figure3D:
         """
         if not isinstance(other, Figure3D):
             raise ValueError("Нельзя складывать классы отличные от Figure3D")
-        if other.hide:
-            return self
         f = Figure3D(self.get_vertexs(), self.get_faces())
         sz = f.size
         added_vertexs = other.get_vertexs()
