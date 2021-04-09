@@ -1,5 +1,14 @@
 from figure3d import *
 from base_figure3d import *
+from base_line3d import *
+
+
+def f(t):
+    return (
+        t * cos(t) * sin(t),
+        t * sin(t),
+        t
+    )
 
 
 if __name__ == "__main__":
@@ -38,3 +47,6 @@ if __name__ == "__main__":
         b1 + b2 + b5 + b3 + b4 +\
         e1 + e2 + e3 + e4 + e5
     c.save_ply("Figure")
+
+    ln = Line3D(f, 0, 10 * pi)
+    ln.save_ply("Line")

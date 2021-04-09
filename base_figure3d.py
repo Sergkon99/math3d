@@ -114,6 +114,11 @@ class Figure3D:
         """
         Генерация строки в ply формате на основе вершин и граней текущей фигуры
         """
+        # Номер последней вершины может выйти за границы -
+        # это значит, что нужно соединить с первыми
+        last_face = self._faces[-1]
+        last_face = tuple(i % self.size[0] for i in last_face)
+        self._faces[-1] = last_face
         header = "ply\n" \
                  "format ascii 1.0\n" \
                  "element vertex {cnt_vertex}\n" \
