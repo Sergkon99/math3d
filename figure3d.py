@@ -33,7 +33,7 @@ class Tetrahedron(BaseFigure):
         :param c: вершина основания
         :param d: вершина тетраедра
         :param r: размер тетраедра
-        :param only_frame: только секлет(без граней)
+        :param only_frame: только скелет(без граней)
         """
         super().__init__()
         self.figure = Ball(a, r) + Ball(b, r) + Ball(c, r) + Ball(d, r)
@@ -48,12 +48,19 @@ class Tetrahedron(BaseFigure):
 
 
 class Cube(BaseFigure):
-    def __init__(self, a: Point3D, e: Point3D, r: float = 1, only_frame: bool = True):
+    def __init__(
+            self,
+            a: Point3D,
+            e: Point3D,
+            r: float = 1,
+            only_frame: bool = True
+            ):
         """
         Куб
-        :param a: первая вершина куьа
+        :param a: первая вершина куба
         :param e: противоположная вершина по диагонали
         :param r: размер куба
+        :param only_frame: только скелет(без граней)
         """
         super().__init__()
         # Нижнее основание
