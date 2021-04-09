@@ -213,8 +213,8 @@ class Cylinder(Figure3D):
         if n1 is None and n2 is None:
             n = tuple(c2 - c1 for c1, c2 in zip(a, b))
 
-        l1 = self._generate_circle(a, n or n1, r)
-        l2 = self._generate_circle(b, n or n1, r)
+        l1 = generate_circle(a, n if n is not None else n1, r)
+        l2 = generate_circle(b, n if n is not None else n1, r)
 
         self.add_vertexs(l1)
         self.add_vertexs(l2)
@@ -235,41 +235,6 @@ class Cylinder(Figure3D):
             self.add_face(face)
         self.add_face(tuple(range(cnt)) + (0,))
         self.add_face(tuple(map(lambda x: x + cnt, range(cnt))) + (0,))
-
-    def _generate_circle(
-            self,
-            p: Point3D,
-            n: Vector3D,
-            r: float
-            ) -> List[Point3D]:
-        """
-        Генерация точек на окружности
-        :param p: центр окружности
-        :param n: нормаль к плоскости в которой лежит окружность
-        :param r: радиус окружности
-        """
-        # Коэфиценты ур-ия прямой
-        A, B, C = n
-
-        t_range = list(frange(0, 2 * pi, .1))
-        if A**2 + C**2 < 0.001:
-            x = [p[0] + r * cos(t) for t in t_range]
-            y = [p[1] for t in t_range]
-            z = [p[2] + r * sin(t) for t in t_range]
-            return [(x_, y_, z_) for x_, y_, z_ in zip(x, y, z)]
-        x = [
-            p[0] + r / sqrt(A**2 + C**2) * (C * cos(t) - A * B * sin(t) / sqrt(A**2 + B**2 + C**2))
-            for t in t_range
-        ]
-        y = [
-            p[1] + r * sqrt(A**2 + C**2) / sqrt(A**2 + B**2 + C**2) * sin(t)
-            for t in t_range
-        ]
-        z = [
-            p[2] - r / sqrt(A**2 + C**2) * (A * cos(t) + B * C * sin(t) / sqrt(A**2 + B**2 + C**2))
-            for t in t_range
-        ]
-        return [(x_, y_, z_) for x_, y_, z_ in zip(x, y, z)]
 
 
 Point = Ball
