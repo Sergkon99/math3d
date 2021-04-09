@@ -17,6 +17,7 @@ def frange(x, y, jump):
     while x < y:
         yield x
         x += jump
+    yield y
 
 
 class Figure3D:
@@ -211,10 +212,10 @@ class Ball(Figure3D):
             self.add_vertexs([(x_, y_, z_) for x_, y_, z_ in zip(x, y, z)])
 
         # Добавим грани
-        for i in range(self.size[0] - cnt - 1):
+        for i in range(self.size[0] - cnt):
             face = (i,
                     (i + cnt),
-                    (i + cnt + 1),
+                    (i + cnt + 1) % self.size[0],
                     i + 1)
             self.add_face(face)
 
@@ -276,22 +277,21 @@ class Cylinder(Figure3D):
         #   |         |
         #   i--------i+1
         cnt = len(l1)
-        for i in range(cnt - 1):  # без последней грани
+        for i in range(cnt):
             face = (i,
                     (i + cnt),
-                    (i + cnt + 1),
+                    (i + cnt + 1) % (2 * cnt),
                     i + 1)
             self.add_face(face)
-        # Добавим последнюю грань
-        self.add_face((0, cnt, 2 * cnt - 1, cnt - 1))
-        self.add_face(tuple(range(cnt)))
-        self.add_face(tuple(map(lambda x: x + cnt, range(cnt))))
+        self.add_face(tuple(range(cnt)) + (0,))
+        self.add_face(tuple(map(lambda x: x + cnt, range(cnt))) + (0,))
 
     def _generate_circle(
             self,
             p: Point3D,
             n: Vector3D,
-            r: float) -> List[Point3D]:
+            r: float
+            ) -> List[Point3D]:
         """
         Генерация точек на окружности
         :param p: центр окружности
@@ -312,7 +312,7 @@ class Cylinder(Figure3D):
             for t in t_range
         ]
         y = [
-            p[1] + r * sqrt(A**2 + C**2 / sqrt(A**2 + B**2 + C**2)) * sin(t)
+            p[1] + r * sqrt(A**2 + C**2) / sqrt(A**2 + B**2 + C**2) * sin(t)
             for t in t_range
         ]
         z = [
@@ -328,7 +328,8 @@ if __name__ == "__main__":
     C = (5, 5, 0)
     D = (0, 5, 0)
     E = (0, 0, 5)
-    c1 = Cylinder(B, C, 1, (1, 1, 1), (3, 0, 0))
+    c1 = Cylinder(B, C, 1, (1, 1, 1), (3, 0, 0), hide=True)
     c2 = Cylinder(D, E, 1)
-    c = c1 + c2
-    c.save_ply("cilllll")
+    b = Ball(A, 1)
+    # c = c1 + c2
+    c1.save_ply("cilllll")
