@@ -36,15 +36,15 @@ class Tetrahedron(BaseFigure):
         :param only_frame: только скелет(без граней)
         """
         super().__init__()
-        self.figure = Ball(a, r) + Ball(b, r) + Ball(c, r) + Ball(d, r)
+        self.figure = Point(a, r) + Point(b, r) + Point(c, r) + Point(d, r)
         r = r * SQUEEZING_VALUE
-        self.figure += Cylinder(a, b, r) + Cylinder(a, c, r) + \
-            Cylinder(a, d, r) + Cylinder(b, c, r) + \
-            Cylinder(b, d, r) + Cylinder(c, d, r)
+        self.figure += Edge(a, b, r) + Edge(a, c, r) + \
+            Edge(a, d, r) + Edge(b, c, r) + \
+            Edge(b, d, r) + Edge(c, d, r)
 
         if not only_frame:
-            self.figure += Edge(a, b, c) + Edge(a, b, d) + \
-                Edge(a, c, d) + Edge(b, c, d)
+            self.figure += Face(a, b, c) + Face(a, b, d) + \
+                Face(a, c, d) + Face(b, c, d)
 
 
 class Cube(BaseFigure):
@@ -72,18 +72,19 @@ class Cube(BaseFigure):
         g = (a[0], a[1], e[2])
         h = (a[0], e[1], e[2])
 
-        self.figure = Ball(a, r) + Ball(b, r) + Ball(c, r) + Ball(d, r) +\
-            Ball(e, r) + Ball(f, r) + Ball(g, r) + Ball(h, r)
+        self.figure = Point(a, r) + Point(b, r) + Point(c, r) + Point(d, r) +\
+            Point(e, r) + Point(f, r) + Point(g, r) + Point(h, r)
         r = r * SQUEEZING_VALUE
-        self.figure += Cylinder(a, b, r) + Cylinder(b, c, r) +\
-            Cylinder(c, d, r) + Cylinder(d, a, r) + Cylinder(e, f, r) +\
-            Cylinder(f, g, r) + Cylinder(g, h, r) + Cylinder(h, e, r) +\
-            Cylinder(b, f, r) + Cylinder(c, e, r) + Cylinder(d, h, r) +\
-            Cylinder(a, g, r) + Edge(a, b, c, d) + Edge(e, f, g, h)
+        self.figure += Edge(a, b, r) + Edge(b, c, r) +\
+            Edge(c, d, r) + Edge(d, a, r) + Edge(e, f, r) +\
+            Edge(f, g, r) + Edge(g, h, r) + Edge(h, e, r) +\
+            Edge(b, f, r) + Edge(c, e, r) + Edge(d, h, r) +\
+            Edge(a, g, r)
 
         if not only_frame:
-            self.figure += Edge(a, b, f, g) + Edge(b, c, e, f) +\
-                Edge(c, e, h, d) + Edge(d, h, g, a)
+            self.figure += Face(a, b, c, d) + Face(e, f, g, h) +\
+                Face(a, b, f, g) + Face(b, c, e, f) + Face(c, e, h, d) +\
+                Face(d, h, g, a)
 
 
 if __name__ == "__main__":
@@ -92,9 +93,9 @@ if __name__ == "__main__":
     C = (5, 5, 0)
     D = (0, 5, 0)
     E = (5, 5, 5)
-    # c1 = Cylinder(B, C, 1, (1, 1, 1), (3, 0, 0), hide=True)
-    # c2 = Cylinder(D, E, 1)
-    # b = Ball(A, 1)
+    # c1 = Edge(B, C, 1, (1, 1, 1), (3, 0, 0), hide=True)
+    # c2 = Edge(D, E, 1)
+    # b = Point(A, 1)
     # c = c1 + c2
     t = Cube(A, E, .51, False).get()
     t.save_ply("cilllll")

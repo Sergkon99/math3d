@@ -168,7 +168,7 @@ class Ball(Figure3D):
             self.add_face(face)
 
 
-class Edge(Figure3D):
+class Face(Figure3D):
     def __init__(self, *points, hide=False):
         """
         Грань
@@ -269,6 +269,9 @@ class Cylinder(Figure3D):
         ]
         return [(x_, y_, z_) for x_, y_, z_ in zip(x, y, z)]
 
+
+Point = Ball
+Edge = Cylinder
 
 if __name__ == "__main__":
     pass
