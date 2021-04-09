@@ -1,7 +1,7 @@
 """
 Содержит базовые фигуры в пространстве
 """
-
+import os
 from typing import List, Tuple
 from math import sqrt, sin, cos, pi
 from utils import *
@@ -138,7 +138,8 @@ class Figure3D:
         Создание ply-файла фигуры
         :param file_name: название файла
         """
-        with open(file_name + ".ply", "w") as f:
+        file_path = os.path.join(os.getcwd(), "ply", file_name + ".ply")
+        with open(file_path, "w") as f:
             f.write(self.generate_ply())
 
 

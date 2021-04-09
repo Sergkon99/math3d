@@ -88,14 +88,4 @@ class Cube(BaseFigure):
 
 
 if __name__ == "__main__":
-    A = (0, 0, 0)
-    B = (5, 0, 0)
-    C = (5, 5, 0)
-    D = (0, 5, 0)
-    E = (5, 5, 5)
-    c1 = Edge(B, C, 1, (1, 1, 1), (3, 0, 0), hide=False)
-    c2 = Edge(D, E, 1, hide=False)
-    # b = Point(A, 1)
-    c = c1 + c2
-    # c = Cylinder(B, B, .3) + Cylinder(A, A, .3)
-    c.save_ply("cilllll")
+    pass

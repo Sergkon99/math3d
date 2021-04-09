@@ -22,7 +22,7 @@ def generate_circle(
     # Коэфиценты ур-ия прямой
     A, B, C = n
 
-    t_range = list(frange(0, 2 * pi, 1))
+    t_range = list(frange(0, 2 * pi, .1))
     if A**2 + C**2 < 0.001:
         x = [p[0] + r * cos(t) for t in t_range]
         y = [p[1] for t in t_range]
