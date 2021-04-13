@@ -216,11 +216,11 @@ class Cylinder(Figure3D):
 
         n = None
         # Считаем общий вектор нормали, если они не заданы
-        if n1 is None and n2 is None:
+        if n1 is None or n2 is None:
             n = tuple(c2 - c1 for c1, c2 in zip(a, b))
 
         l1 = generate_circle(a, n if n is not None else n1, r)
-        l2 = generate_circle(b, n if n is not None else n1, r)
+        l2 = generate_circle(b, n if n is not None else n2, r)
 
         self.add_vertexs(l1)
         self.add_vertexs(l2)
