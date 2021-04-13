@@ -1,4 +1,5 @@
 from math import *
+from typing import Tuple
 
 # TODO вынести типы отдельно
 # Точка в пространстве
